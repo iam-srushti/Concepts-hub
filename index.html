@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Revision Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <p class="brand-kicker" id="author">Notes</p>
+        <h1 id="site-title">Revision Hub</h1>
+        <p class="tagline" id="site-tagline">Linux → OpenShift</p>
+      </div>
+
+      <label class="search-wrap" for="search">
+        <span class="sr-only">Search topics</span>
+        <input id="search" type="search" placeholder="Search topics…" autocomplete="off" />
+      </label>
+
+      <nav id="nav" class="nav" aria-label="Topics"></nav>
+
+      <div class="sidebar-foot">
+        <button id="theme-btn" type="button" aria-label="Toggle theme">Theme</button>
+        <p class="hint">Press <kbd>/</kbd> to search</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="hero">
+        <h2 id="topic-title">Welcome</h2>
+        <p id="topic-summary">Pick a topic from the left to revise.</p>
+      </header>
+      <article id="topic-body" class="content"></article>
+    </main>
+  </div>
+
+  <script src="topics.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
