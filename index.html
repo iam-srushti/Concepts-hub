@@ -9,11 +9,13 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-      <div class="brand">
-        <p class="brand-kicker" id="author">Notes</p>
-        <h1 id="site-title">Revision Hub</h1>
-        <p class="tagline" id="site-tagline">Linux → OpenShift</p>
+      <div class="sidebar-head">
+        <p class="topics-label">Topic</p>
+        <button id="theme-btn" type="button" class="theme-btn" aria-label="Toggle theme">◐</button>
       </div>
+
+      <p id="active-section-label" class="active-section-label">Selected: Linux</p>
+      <button id="new-btn" type="button" class="new-btn">+ New in Linux</button>
 
       <label class="search-wrap" for="search">
         <span class="sr-only">Search topics</span>
@@ -23,18 +25,141 @@
       <nav id="nav" class="nav" aria-label="Topics"></nav>
 
       <div class="sidebar-foot">
-        <button id="theme-btn" type="button" aria-label="Toggle theme">Theme</button>
-        <p class="hint">Press <kbd>/</kbd> to search</p>
+        <button id="export-btn" type="button" class="ghost-btn">Export backup</button>
+        <p class="hint">Pehle section click, phir + dabao.</p>
       </div>
     </aside>
 
-    <main class="main">
+    <div class="page">
       <header class="hero">
-        <h2 id="topic-title">Welcome</h2>
-        <p id="topic-summary">Pick a topic from the left to revise.</p>
+        <h1 id="site-title">Revision Hub</h1>
+        <p id="site-tagline">Linux → Containers → OpenShift</p>
       </header>
-      <article id="topic-body" class="content"></article>
-    </main>
+
+      <main class="main">
+        <section id="empty-state" class="topic-panel empty-state">
+          <h2>Kaise add karein</h2>
+          <div class="process-box">
+            <h4>Steps</h4>
+            <ol>
+              <li>Left mein section select karo (Linux / Containers / OpenShift)</li>
+              <li>Uske <strong>+</strong> pe click karo</li>
+              <li>Notes box mein likho — toolbar se bold/bullets/colors</li>
+              <li><strong>Save</strong> dabao</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="doc-panel" class="topic-panel hidden">
+          <div class="doc-toolbar">
+            <button id="edit-btn" type="button" class="tool-btn">Edit</button>
+            <button id="save-btn" type="button" class="tool-btn primary hidden">Save</button>
+            <button id="cancel-btn" type="button" class="tool-btn ghost hidden">Cancel</button>
+            <button id="delete-btn" type="button" class="tool-btn danger">Delete</button>
+          </div>
+
+          <!-- VIEW -->
+          <div id="view-mode">
+            <p id="view-section" class="section-badge"></p>
+            <h2 class="topic-heading">
+              <span id="view-icon" class="topic-icon">📘</span>
+              <span id="view-title">Title</span>
+            </h2>
+            <p id="view-summary" class="topic-summary"></p>
+            <div id="view-body" class="topic-body"></div>
+          </div>
+
+          <!-- EDIT: plain fields only, no HTML -->
+          <div id="edit-mode" class="hidden">
+            <label class="field">
+              <span>Section</span>
+              <select id="edit-section">
+                <option value="linux">Linux</option>
+                <option value="containers">Containers</option>
+                <option value="openshift">OpenShift</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Title</span>
+              <input id="edit-title" type="text" placeholder="e.g. Permissions / Routes / Podman" />
+            </label>
+
+            <label class="field">
+              <span>Icon (optional emoji)</span>
+              <input id="edit-icon" type="text" maxlength="4" placeholder="📘" />
+            </label>
+
+            <label class="field">
+              <span>One-line summary</span>
+              <input id="edit-summary" type="text" placeholder="Short description…" />
+            </label>
+
+            <div class="field">
+              <span>Notes</span>
+              <div class="rich-wrap">
+                <div class="rich-toolbar" id="rich-toolbar">
+                  <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+                  <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+                  <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+                  <span class="rich-sep"></span>
+                  <button type="button" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
+                  <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+                  <span class="rich-sep"></span>
+                  <button type="button" data-cmd="formatBlock" data-value="h3" title="Heading">H</button>
+                  <button type="button" data-cmd="removeFormat" title="Clear formatting">Clear</button>
+                  <span class="rich-sep"></span>
+                  <span class="rich-label">Text</span>
+                  <button type="button" class="swatch" data-color="#111827" style="background:#111827" title="Black"></button>
+                  <button type="button" class="swatch" data-color="#2563eb" style="background:#2563eb" title="Blue"></button>
+                  <button type="button" class="swatch" data-color="#059669" style="background:#059669" title="Green"></button>
+                  <button type="button" class="swatch" data-color="#dc2626" style="background:#dc2626" title="Red"></button>
+                  <button type="button" class="swatch" data-color="#d97706" style="background:#d97706" title="Orange"></button>
+                  <button type="button" class="swatch" data-color="#7c3aed" style="background:#7c3aed" title="Purple"></button>
+                  <span class="rich-sep"></span>
+                  <span class="rich-label">Highlight</span>
+                  <button type="button" class="swatch hi" data-highlight="#fef08a" style="background:#fef08a" title="Yellow"></button>
+                  <button type="button" class="swatch hi" data-highlight="#bbf7d0" style="background:#bbf7d0" title="Green"></button>
+                  <button type="button" class="swatch hi" data-highlight="#bfdbfe" style="background:#bfdbfe" title="Blue"></button>
+                  <button type="button" class="swatch hi" data-highlight="#fecaca" style="background:#fecaca" title="Red"></button>
+                  <button type="button" class="swatch hi" data-highlight="transparent" title="No highlight">✕</button>
+                </div>
+                <div
+                  id="edit-notes"
+                  class="rich-editor"
+                  contenteditable="true"
+                  role="textbox"
+                  aria-multiline="true"
+                  data-placeholder="Type your notes here… Select text, then use Bold / bullets / colors."
+                ></div>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Key components (one per line: Name - detail)</span>
+              <textarea id="edit-components" rows="4" placeholder="API Server - handles requests&#10;etcd - stores cluster state"></textarea>
+            </label>
+
+            <label class="field">
+              <span>Numbered steps (one per line)</span>
+              <textarea id="edit-steps" rows="4" placeholder="User runs oc command&#10;API server validates&#10;etcd is updated"></textarea>
+            </label>
+
+            <label class="field">
+              <span>Commands (one command per line)</span>
+              <textarea id="edit-commands" rows="5" placeholder="oc login&#10;oc get pods&#10;oc describe pod NAME"></textarea>
+            </label>
+
+            <label class="field">
+              <span>Diagram image path (optional)</span>
+              <input id="edit-diagram" type="text" placeholder="images/my-diagram.png" />
+            </label>
+
+            <p class="hint">Notes mein text select karke Bold / Underline / bullets / colors use karo. Neeche ke boxes optional hain.</p>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
 
   <script src="topics.js"></script>
